@@ -20,23 +20,45 @@ class sketchpad:
     def __init__(self,master=None):
         
         self.master=master
+        
         #w=self.canvas(master)
-        self.root=Tk()
-        self.root.geometry("500x500")
-        self.menubar = Menu(self.root)
-        filemenu = Menu(self.menubar, tearoff=0)
-        filemenu.add_command(label="New")
+        root=Tk()
+        root.title("Sketchpad")
+        root.geometry("500x500")
+        #menu
+        menubar = Menu(root)
+        filemenu = Menu(menubar, tearoff=0)
+        filemenu.add_command(label="New", command=self.donothing)
         filemenu.add_command(label="Open", command=self.donothing)
         filemenu.add_command(label="Save", command=self.donothing)
         filemenu.add_command(label="Save as...", command=self.donothing)
-        filemenu.add_command(label="Close", command=self.donothing)
-        filemenu.add_cascade(label="File", menu=filemenu)
-        shapeButton=Button(self.root, text="Shape")
+        filemenu.add_command(label="Close", command=root.destroy)
+        menubar.add_cascade(label="File", menu=filemenu)
+        editmenu = Menu(menubar, tearoff=0)
+        editmenu.add_command(label="Undo", command=self.donothing)
+
+        editmenu.add_separator()
+
+        editmenu.add_command(label="Cut", command=self.donothing)
+        editmenu.add_command(label="Copy", command=self.donothing)
+        editmenu.add_command(label="Paste", command=self.donothing)
+        editmenu.add_command(label="Delete", command=self.donothing)
+        editmenu.add_command(label="Select All", command=self.donothing)
+
+        menubar.add_cascade(label="Edit", menu=editmenu)
+        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="Help Index", command=self.donothing)
+        helpmenu.add_command(label="About...", command=self.donothing)
+        menubar.add_cascade(label="Help", menu=helpmenu)
+        root.config(menu=menubar)
+        #buttons
+        shapeButton=Button(root, text="Shape")
         shapeButton.pack()
-        handButton=Button(self.root, text="Hand")
+        handButton=Button(root, text="Hand")
         handButton.pack()
-        graphButton=Button(self.root, text="Hand")
+        graphButton=Button(root, text="Hand")
         graphButton.pack()
+        
         
       
     def donothing(self):
