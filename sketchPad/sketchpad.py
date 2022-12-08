@@ -18,19 +18,24 @@ class Shape:
 
 
 class sketchpad():
+    def paint(self,event):
+        x1, y1 = (event.x - 1), (event.y - 1)
+        x2, y2 = (event.x + 1), (event.y + 1)
+        w.create_oval(x1,y1,x2,y2,fill="black", width=0)
+   
     
     def __init__(self,master=None):
         
         self.master=master
-        
-        #w=self.canvas(master)
         root=Tk()
         root.title("Sketchpad")
         root.geometry("500x500")
+        global w
+        
         #menu
         menubar = Menu(root)
         filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=self.donothing)
+        filemenu.add_command(label="New", command=self.new)
         filemenu.add_command(label="Open", command=self.open)
         filemenu.add_command(label="Save", command=self.save_as)
         filemenu.add_command(label="Save as...", command=self.save_as)
@@ -58,20 +63,23 @@ class sketchpad():
         shapeButton.pack()
         handButton=Button(root, text="Hand")
         handButton.pack()
-        graphButton=Button(root, text="Hand")
+        graphButton=Button(root, text="Graph")
         graphButton.pack()
-        #create canvas
-        maincanvas=Canvas(root, bg="white",height=400, width=500)
-        maincanvas.pack()
-        
+        w=Canvas(root, bg="white",height=400, width=500)
+        w.pack(expand=YES, fill=BOTH)
+        w.bind("<B1-Motion>",self.paint)
     #place holder function
     def donothing(self):
         filewin = Toplevel(self.root)
     def save_as(self):
         f = asksaveasfile(initialfile = 'Untitled.jpeg',
-        defaultextension=".jpeg",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+        defaultextension=".jpeg",filetypes=[("All Files","*.*"),("jpeg","*.jpeg")])
     def open(self):
         f=askopenfile()
+    def new(self):
+        w.delete('all')
+   
+
 
 
 
