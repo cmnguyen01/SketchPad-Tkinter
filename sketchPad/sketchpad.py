@@ -4,10 +4,11 @@ import math
 import random
 import numpy as np
 import tkinter as Tk
+from graphMode import graphMode
 from tkinter import * 
 from tkinter.ttk import * 
 from tkinter.filedialog import *
-from Mode import *
+
 from abc import ABC, abstractmethod
 class Shape:
     def __init__(self, master = None):
@@ -22,7 +23,10 @@ class sketchpad():
         x1, y1 = (event.x - 1), (event.y - 1)
         x2, y2 = (event.x + 1), (event.y + 1)
         w.create_oval(x1,y1,x2,y2,fill="black", width=0)
-   
+    def createCircles(self,event):
+        x1, y1 = (event.x - 1), (event.y - 1)
+        x2, y2 = (event.x + 1), (event.y + 1)
+        w.create_oval(x1,y1,x2,y2,fill='red', width=5)
     
     def __init__(self,master=None):
         
@@ -59,12 +63,10 @@ class sketchpad():
         menubar.add_cascade(label="Help", menu=helpmenu)
         root.config(menu=menubar)
         #buttons
-        shapeButton=Button(root, text="Shape")
-        shapeButton.pack()
-        handButton=Button(root, text="Hand")
-        handButton.pack()
         graphButton=Button(root, text="Graph")
+        graphButton.bind("<Button-1>", self.graphButton_Press)
         graphButton.pack()
+        #canvas
         w=Canvas(root, bg="white",height=400, width=500)
         w.pack(expand=YES, fill=BOTH)
         w.bind("<B1-Motion>",self.paint)
@@ -78,7 +80,15 @@ class sketchpad():
         f=askopenfile()
     def new(self):
         w.delete('all')
-   
+    def graphButton_Press(self,event):
+        w.delete('all')
+        w.bind("<ButtonRelease>", self.createCircles)
+        w.unbind("<B1-motion>")
+        master=graphMode()
+        
+
+
+
 
 
 
